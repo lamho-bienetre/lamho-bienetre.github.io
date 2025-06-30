@@ -25,7 +25,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://lamho-bienetre.github.io/img/wallhaven-6qmwww.jpg">
 <meta property="article:published_time" content="2025-06-30T06:00:00.000Z">
-<meta property="article:modified_time" content="2025-06-30T16:12:43.323Z">
+<meta property="article:modified_time" content="2025-06-30T23:44:44.742Z">
 <meta property="article:author" content="Lam Ho">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://lamho-bienetre.github.io/img/wallhaven-6qmwww.jpg">
@@ -350,7 +350,7 @@
   <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-section"># 取到搜索结果后，传给LLM的prompt</span><br><br>你是一位智能助手。请根据以下搜索结果回答用户的问题，并在回答中使用对应的编号注明信息来源。<br><br>搜索结果：<br><br><span class="hljs-bullet">1.</span> [标题/链接] — 摘要<br><span class="hljs-bullet">2.</span> [标题/链接] — 摘要<br><span class="hljs-bullet">3.</span> [标题/链接] — 摘要<br><br>用户问题：<br>&lt;用户的原始提问&gt;<br><br>回答：<br></code></pre></td></tr></table></figure></li>
 </ul>
 <p>第一次 inference 是 LLM 与下游任务（调用搜索引擎）的交互，第二次 inference 是 LLM 与上游任务（搜索得到结果）的交互。</p>
-<p>这种通过检索来优化LLM生成结果的手段，称为 <strong>RAG（Retrieval-Augmented Generation，检索增强生成）</strong>。</p>
+<p>这种通过检索来优化 LLM 生成结果的手段，称为 <strong>RAG（Retrieval-Augmented Generation，检索增强生成）</strong>。</p>
 <h2 id="RAG-框架"><a href="#RAG-框架" class="headerlink" title="RAG 框架"></a>RAG 框架</h2><p>RAG 这个概念在 2020 年提出，通过引入外部知识库，解决了预训练模型知识访问受限、难以更新知识、缺乏可解释性等问题。在 ChatGPT 发布后不久，RAG 框架迅速成为热点。现在 RAG 在业界已经是很常见的实现方式了。关于 RAG 的具体原理和实现细节，详见另一篇 blog。</p>
 <hr>
 <span style="color: Gray;">
