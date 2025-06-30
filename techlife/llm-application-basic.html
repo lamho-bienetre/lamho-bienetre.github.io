@@ -25,7 +25,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://lamho-bienetre.github.io/img/wallhaven-6qmwww.jpg">
 <meta property="article:published_time" content="2025-06-30T06:00:00.000Z">
-<meta property="article:modified_time" content="2025-06-30T15:56:00.475Z">
+<meta property="article:modified_time" content="2025-06-30T16:03:36.482Z">
 <meta property="article:author" content="Lam Ho">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://lamho-bienetre.github.io/img/wallhaven-6qmwww.jpg">
@@ -289,21 +289,21 @@
 <li><code>messages</code>:  传给模型的内容，文本内容以不同的 role 传给模型，role 设定见下文。</li>
 </ul>
 <h2 id="role-设定"><a href="#role-设定" class="headerlink" title="role 设定"></a>role 设定</h2><p>role 有 3 种取值：<font style="color:orange;">system, user, assistant</font></p>
-<h3 id="“user”-用户-“assistant”-AI"><a href="#“user”-用户-“assistant”-AI" class="headerlink" title="“user” - 用户, “assistant” - AI"></a>“user” - 用户, “assistant” - AI</h3><p>以 user &#x2F; assistant 的角色来标记用户和AI的一问一答。以 <u>user 角色</u>传入文本内容，得到 <u>assistant 角色</u>的响应，也就是 LLM 的回复。</p>
+<h3 id="“user”-用户-“assistant”-AI"><a href="#“user”-用户-“assistant”-AI" class="headerlink" title="“user” - 用户, “assistant” - AI"></a>“user” - 用户, “assistant” - AI</h3><p>以 user &#x2F; assistant 的角色来标记用户和 AI 的一问一答。以 <u>user role</u> 传入文本内容，得到 <u>assistant role</u> 的响应，也就是 LLM 的回复。</p>
 <p><strong>input</strong></p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;role&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;user&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;content&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;介绍一下你自己&quot;</span><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
 
 <p><strong>output</strong></p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;role&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;assistant&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;content&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;您好！我是由OpenAI开发的人工智能语言模型，名字是ChatGPT。我可以帮助回答各种问题，提供信息、写作建议、学习辅导、创意创作以及与您进行愉快的交流。我的知识截止到2023年10月，所以对那之后的最新事件可能了解有限。如果您有任何问题或需要帮助的地方，请随时告诉我！&quot;</span><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
 
-<h3 id="“system”-AI人设"><a href="#“system”-AI人设" class="headerlink" title="“system” - AI人设"></a>“system” - AI人设</h3><p>system 角色可以看作给 AI 自定义的人设，比如限定背景、身份、语言风格等。</p>
+<h3 id="“system”-AI人设"><a href="#“system”-AI人设" class="headerlink" title="“system” - AI人设"></a>“system” - AI人设</h3><p><u>system role</u> 可以看作给 AI 自定义的人设，比如限定背景、身份、语言风格等。</p>
 <p><strong>input</strong></p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;role&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;system&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;content&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;你叫Hola，是一个资深商业咨询师，你可以为企业解答各种商业问题。&quot;</span><span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br><span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;role&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;user&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;content&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;介绍一下你自己&quot;</span><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
 
 <p><strong>output</strong></p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;role&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;assistant&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;content&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;您好，我是Hola，一名资深商业咨询师，专注于为企业提供战略规划、运营优化、市场发展、数字转型等方面的专业建议。拥有丰富的行业经验，曾协助多家企业实现业务增长和转型升级。我的目标是帮助企业识别机会、应对挑战，制定切实可行的解决方案，从而实现持续的成功和竞争优势。如有任何商业相关的问题，欢迎随时咨询！&quot;</span><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
 
-<p>可以看到对于用户同样的提问，添加了 system 人设后得到的回复就不一样了。所以集成到应用时可以在后台写好 system 角色的定义，控制我们希望用户得到的回复。</p>
+<p>可以看到对于用户同样的提问，添加了 system 人设后得到的回复就不一样了。所以集成到应用时可以在后台写好 system role 的定义，控制我们希望用户得到的回复。</p>
 <p>在搭建定制化的 AI 对话产品时，需要调的 prompt 主要就是 system role 里的描述。user role 里用户会如何 prompting 是无法限制的。</p>
 <p>如果不是为了搭建 AI 对话，而是要实现某单一功能，设计 system role 和直接只用 user role 没有差别。比如客户评价的情绪识别，读取每条客户评价识别是积极还是消极，那么以下两种实现方式的效果是一样的。显然在这个应用场景里只用 user role 更简洁。</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;role&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;system&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;content&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;请识别客户评价的情绪，是积极还是消极&quot;</span><span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br><span class="hljs-punctuation">&#123;</span><span class="hljs-attr">&quot;role&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;user&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;content&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;&lt;客户评价文本&gt;&quot;</span><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
