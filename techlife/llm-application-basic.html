@@ -25,7 +25,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://lamho-bienetre.github.io/img/wallhaven-6qmwww.jpg">
 <meta property="article:published_time" content="2025-06-30T06:00:00.000Z">
-<meta property="article:modified_time" content="2025-06-30T16:03:36.482Z">
+<meta property="article:modified_time" content="2025-06-30T16:12:43.323Z">
 <meta property="article:author" content="Lam Ho">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://lamho-bienetre.github.io/img/wallhaven-6qmwww.jpg">
@@ -344,7 +344,7 @@
 <ul>
 <li><p>第一次 inference：LLM 从用户提问内容中抽取搜索内容，把搜索内容给搜索引擎进行搜索；</p>
 <p>  <img src="/img/2025-06-30-llm-application/bing-openai-gpt-4-1678815799.jpg" srcset="/img/loading.gif" lazyload></p>
-<p>  从当初 Bing Chat 界面的截图来看，用户提问的是 <i>“does bing use gpt-4?”</i>，而所显示的中间步骤Searching for搜索内容是 <i>“bing gpt-4”</i>，可见并不是直接把用户提问直接进行搜索，是用LLM识别出用来搜索的关键词再进行搜索的。现在市面上的对话产品都没有显示搜索关键词这个中间步骤了，包括现在又变成叫Copilot的Bing Chat也没有设计显示搜索关键词。</p>
+<p>  从当初 Bing Chat 界面的截图来看，用户提问的是 <i>“does bing use gpt-4?”</i>，而所显示的中间步骤 Searching for 搜索内容是 <i>“bing gpt-4”</i>，可见并不是直接把用户提问直接进行搜索，是用 LLM 识别出用来搜索的关键词再进行搜索的。现在市面上的对话产品都没有显示搜索关键词这个中间步骤了，包括现在又变成叫 Copilot 的 Bing Chat 也没有设计显示搜索关键词。</p>
 </li>
 <li><p>第二次 inference：让 LLM 基于搜索结果回答用户的提问，把 LLM 生成的回复返回给用户。</p>
   <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-section"># 取到搜索结果后，传给LLM的prompt</span><br><br>你是一位智能助手。请根据以下搜索结果回答用户的问题，并在回答中使用对应的编号注明信息来源。<br><br>搜索结果：<br><br><span class="hljs-bullet">1.</span> [标题/链接] — 摘要<br><span class="hljs-bullet">2.</span> [标题/链接] — 摘要<br><span class="hljs-bullet">3.</span> [标题/链接] — 摘要<br><br>用户问题：<br>&lt;用户的原始提问&gt;<br><br>回答：<br></code></pre></td></tr></table></figure></li>
