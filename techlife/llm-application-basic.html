@@ -25,7 +25,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://lamho-bienetre.github.io/img/wallhaven-6qmwww.jpg">
 <meta property="article:published_time" content="2025-06-30T06:00:00.000Z">
-<meta property="article:modified_time" content="2025-07-03T14:54:13.439Z">
+<meta property="article:modified_time" content="2025-07-07T15:48:20.074Z">
 <meta property="article:author" content="Lam Ho">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://lamho-bienetre.github.io/img/wallhaven-6qmwww.jpg">
@@ -221,7 +221,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          9.4k words
+          9.7k words
         
       </span>
     
@@ -232,7 +232,7 @@
         
         
         
-          79 mins
+          81 mins
         
       </span>
     
@@ -375,6 +375,9 @@
 <p>第一次 inference 是 LLM 与下游任务（调用搜索引擎）的交互，第二次 inference 是 LLM 与上游任务（搜索得到结果）的交互。</p>
 <p>这种通过检索来优化 LLM 生成结果的手段，称为 <strong>RAG（Retrieval-Augmented Generation，检索增强生成）</strong>。</p>
 <h2 id="RAG-架构"><a href="#RAG-架构" class="headerlink" title="RAG 架构"></a>RAG 架构</h2><p>RAG 这个概念在 2020 年提出，通过引入外部知识库，解决了预训练模型知识访问受限、难以更新知识、缺乏可解释性等问题。在 ChatGPT 发布后不久，RAG 架构迅速成为热点。现在 RAG 在业界已经是很常见的实现方式了。关于 RAG 的具体原理和实现细节，详见另一篇 blog《<a href="/techlife/rag-concept.html" title="RAG架构，源于AI，不止AI">RAG架构，源于AI，不止AI</a>》。</p>
+<h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><p>至此，LLM 原生 API 常用的能力基本梳理完毕。归根结底，LLM 只有一种输出，就是文本。<sup id="fnref:4" class="footnote-ref"><a href="#fn:4" rel="footnote"><span class="hint--top hint--rounded" aria-label="此文未讨论多模态的生成模型，仅讨论输入输出都是文本的 LLM。">[4]</span></a></sup>我们看到的各种 RAG、Agent 等高级玩法，都是基于 LLM 生成的文本把各种工具串起来所搭建的。</p>
+<p>大致了解原生 API 的基本能力后，可以把学习重点转向 LangChain &#x2F; LlamaIndex &#x2F; Haystack &#x2F; PydanticAI 等 AI 框架，这些框架已经封装了上下文记忆、历史对话存储、RAG 通用流程等多种常用功能。</p>
+<p>至于从零训练一个 LLM 模型，那是属于少数顶级技术团队才能完成的大工程，我们关注各大厂商的竞逐即可。</p>
 <hr>
 <span style="color: Gray;">
 
@@ -387,7 +390,8 @@
 <section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>技术层面的 AI 和大众所说的 AI 有一定的差异。我发现很多民众会认为人脸识别、语音识别这些现在已经是司空见惯的成熟技术了，不是 AI。但其实这些也是 AI。
 <a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>GPT 模型并不是只有一个模型，而是有多个版本的模型，并且还在不断更新迭代。在 ChatGPT 面世之前，OpenAI 已经有 GPT-1 &#x2F; GPT-2 &#x2F; GPT-3 这几个版本。初次发行的 ChatGPT 是在 GPT‑3.5 上进行 fine-tune（微调）开发的 AI 对话产品，后续 ChatGPT 采取不同的订阅等级提供给用户不同的模型版本以及其他附加功能。其他 LLM 模型同理，也是系列模型，都在不断迭代中。
 <a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:3" class="footnote-text"><span>NLP（Natural Language Processing，自然语言处理）就是研究怎么用计算机去理解人类的语言。简单来说，计算机语言就是写代码，自然语言就是写文章。
-<a href="#fnref:3" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+<a href="#fnref:3" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:4" class="footnote-text"><span>此文未讨论多模态的生成模型，仅讨论输入输出都是文本的 LLM。
+<a href="#fnref:4" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
                 
               </div>
             
