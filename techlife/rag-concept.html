@@ -16,23 +16,23 @@
   <meta name="author" content="Lam Ho">
   <meta name="keywords" content="">
   
-    <meta name="description" content="搭建 RAG 要知道的都在这里了。">
+    <meta name="description" content="搭建 RAG 要知道什么，难在哪里。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="RAG架构，源于AI，不止AI">
+<meta property="og:title" content="RAG架构，源于AI，不只AI">
 <meta property="og:url" content="https://lamho-bienetre.github.io/techlife/rag-concept.html">
 <meta property="og:site_name" content="Always remember me this way">
-<meta property="og:description" content="搭建 RAG 要知道的都在这里了。">
+<meta property="og:description" content="搭建 RAG 要知道什么，难在哪里。">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://lamho-bienetre.github.io/img/wallhaven-6qmwww.jpg">
-<meta property="article:published_time" content="2025-07-05T12:00:00.000Z">
-<meta property="article:modified_time" content="2025-07-06T17:11:15.413Z">
+<meta property="article:published_time" content="2025-07-09T12:00:00.000Z">
+<meta property="article:modified_time" content="2025-07-09T16:18:42.309Z">
 <meta property="article:author" content="Lam Ho">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://lamho-bienetre.github.io/img/wallhaven-6qmwww.jpg">
   
   
   
-  <title>RAG架构，源于AI，不止AI - Always remember me this way</title>
+  <title>RAG架构，源于AI，不只AI - Always remember me this way</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -198,7 +198,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">RAG架构，源于AI，不止AI</span>
+            <span id="subtitle">RAG架构，源于AI，不只AI</span>
           
         </div>
 
@@ -209,8 +209,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-07-05 20:00" pubdate>
-          2025-07-05
+        <time datetime="2025-07-09 20:00" pubdate>
+          2025-07-09
         </time>
       </span>
     
@@ -221,7 +221,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          5k words
+          5.6k words
         
       </span>
     
@@ -232,7 +232,7 @@
         
         
         
-          42 mins
+          47 mins
         
       </span>
     
@@ -270,7 +270,7 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">RAG架构，源于AI，不止AI</h1>
+            <h1 style="display: none">RAG架构，源于AI，不只AI</h1>
             
             
               <div class="markdown-body">
@@ -278,7 +278,9 @@
                 <blockquote style="font-size: 14px;color: White; background-color: darkslategray; padding: 15px; border-radius: 10px; outline: 2px dotted darkslategray; outline-offset: 5px;">
     <b style="font-size: 16px;">TL;DR</b>
     <ul style="margin: 10px 0; padding-left: 1.5em;">
-        <li>RAG 要点</li>
+        <li>影响 RAG 最终效果的不止底层的 LLM，还有 retrieve（检索）结果，如果检索结果没有找对，LLM 再厉害也得不到理想的回答。</li>
+        <li>不同的 chunking 会影响 retrieve 结果，如何选择 chunking 策略是一个不小的挑战。</li>
+        <li>最大的工作量不是在 RAG 流程搭建，而是在 chunking 和 retrieve 的策略选择。</li>
     </ul>
 </blockquote>
 
@@ -289,24 +291,25 @@
 <br>
 
 
-<p>如前文《<a href="/techlife/llm-application-basic.html" title="LLM应用，不需要学AI，会调接口就行">LLM应用，不需要学AI，会调接口就行</a>》所说，AI 对话产品中的“联网搜索”是通过检索来优化 LLM 的生成结果，这种技术架构称为 <strong>RAG（Retrieval-Augmented Generation，检索增强生成）</strong>。现在 RAG 在业界十分常见，用于搭建基于私有知识库的问答场景。通过检索从企业或个人的私有知识库中提取相关信息，结合 LLM 进行生成，有效保证问答内容的专业性和私密性。</p>
-<h1 id="1-Retrieve（检索）"><a href="#1-Retrieve（检索）" class="headerlink" title="1. Retrieve（检索）"></a>1. Retrieve（检索）</h1><p>在 RAG 架构中，检索环节是核心步骤，决定了生成内容的相关性和准确性。LLM 实现“联网搜索”，数据源就是互联网数据，检索方式就是搜索引擎，直接调用搜索引擎 API 就可以解决了。那么我们的数据源换成私有知识库，检索又如何实现呢？</p>
-<h2 id="1-1-基本的检索实现"><a href="#1-1-基本的检索实现" class="headerlink" title="1.1. 基本的检索实现"></a>1.1. 基本的检索实现</h2><h3 id="检索策略"><a href="#检索策略" class="headerlink" title="检索策略"></a>检索策略</h3><p>当前很常用的检索策略是 <font style="color:orange;"><strong>Hybrid search（混合搜索）</strong></font>。Hybrid search 是指 <u>Lexical search（词汇搜索）</u>和 <u>Semantic search（语义搜索）</u>两种搜索类别的结合。</p>
-<p><font style="color:orange;"><strong>Lexical search（词汇搜索）</strong></font>，主要技术有 <font style="color:violet;">Keyword search（关键词搜索）</font>和 <font style="color:violet;">Full-text search（全文搜索）</font>。Keyword search（关键词搜索），顾名思义是找到精准匹配的关键词。而 Full-text search（全文搜索）可以看作是在关键词匹配的基础上，引入了部分 NLP 技术，从而支持模糊匹配和更灵活的检索。</p>
+<p>如前文《<a href="/techlife/llm-application-basic.html" title="LLM应用，不需要学AI，会调接口就行">LLM应用，不需要学AI，会调接口就行</a>》所说，AI 对话产品中的“联网搜索”是通过检索来优化 LLM 的生成结果，这种技术架构称为 <strong>RAG（Retrieval-Augmented Generation，检索增强生成）</strong>。现在 RAG 在业界十分常见，用于搭建基于私有知识库的 AI 场景。通过检索从企业或个人的私有知识库中提取相关信息，结合 LLM 进行生成，有效保证内容的专业性和私密性。</p>
+<h1 id="1-Retrieve（检索）"><a href="#1-Retrieve（检索）" class="headerlink" title="1. Retrieve（检索）"></a>1. Retrieve（检索）</h1><p>在 RAG 架构中，检索环节是核心步骤，决定了生成内容的相关性和准确性。“联网搜索”功能中，数据源就是互联网数据，检索方式就是搜索引擎，直接调用搜索引擎 API 就可以解决了。那么我们的数据源换成私有知识库，检索又如何实现呢？</p>
+<h2 id="1-1-检索策略"><a href="#1-1-检索策略" class="headerlink" title="1.1. 检索策略"></a>1.1. 检索策略</h2><p>当前很常用的检索策略是 <span style="color:orange;"><strong>Hybrid search（混合搜索）</strong></span>。Hybrid search 是指 <u>Lexical search（词汇搜索）</u>和 <u>Semantic search（语义搜索）</u>两种搜索类别的结合。</p>
+<h3 id="1-1-1-Lexical-search（词汇搜索）"><a href="#1-1-1-Lexical-search（词汇搜索）" class="headerlink" title="1.1.1. Lexical search（词汇搜索）"></a>1.1.1. Lexical search（词汇搜索）</h3><p><span style="color:orange;"><strong>Lexical search（词汇搜索）</strong></span>，主要技术有 <span style="color:violet;">Keyword search（关键词搜索）</span>和 <span style="color:violet;">Full-text search（全文搜索）</span>。Keyword search（关键词搜索），顾名思义是找到精准匹配的关键词。而 Full-text search（全文搜索）可以看作是在关键词匹配的基础上，引入了部分传统 NLP 技术（不包括深度学习），从而支持模糊匹配和更灵活的检索。</p>
 <p>词汇搜索的应用很常见：</p>
 <ul>
 <li>电商平台搜索产品（例如在淘宝搜扫地机器人可以找到相关的商品）</li>
-<li>博客或知识库全文中搜索明确关键词（例如在本站搜 RAG 可以找到提到这个词语的文章）</li>
+<li>博客或知识库全文中搜索明确关键词（例如在本站搜 RAG 可以找到包含这个词语的文章）</li>
 <li>图书馆系统里搜索书名</li>
 </ul>
 <p>显然词汇搜索有一定的局限性，它<i style="color:tomato;">无法找到同义词、无法理解上下文、拼写错误会影响搜索结果</i>。而 Semantic search（语义搜索）可以补足词汇搜索的这些缺点。</p>
-<p><font style="color:orange;"><strong>Semantic search（语义搜索）</strong></font>，在当前 RAG 架构主要就是使用 <font style="color:violet;">Vector search（向量搜索）</font>。</p>
-<p>把文本转化成向量，也就是 embedding（文本向量化），向量里包含了语义信息。通过计算两个文本的向量距离（相似度），就可以判断它们是否相似。我们只需要知道，把文本用向量来表示是包含语义的，做向量检索就可以匹配到语义相近的文本。各厂商有提供 embedding 模型的接口，直接调用即可。比如调用 <a target="_blank" rel="noopener" href="https://platform.openai.com/docs/guides/embeddings/embedding-models">OpenAI - Embeddings</a>，传入一个文本可以得到一个1536维度的数组。</p>
-<p>假设我们的知识库是所有 helpdesk 工单，每个单的文本做 embedding 变成向量存储到数据库里。新增了一个新的工单，我们想要搜到和新工单语义最接近的 5 个单，那就把新工单做 embedding 变成一个向量，计算这个向量和数据库里所有向量的距离，相似度最高的 5 个就是我们要找的单。</p>
-<p><img src="/img/2025-07-05-rag-basic/helpdesk_vector_search.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="1-1-2-Semantic-search（语义搜索）"><a href="#1-1-2-Semantic-search（语义搜索）" class="headerlink" title="1.1.2. Semantic search（语义搜索）"></a>1.1.2. Semantic search（语义搜索）</h3><p><span style="color:orange;"><strong>Semantic search（语义搜索）</strong></span>，在当前 RAG 架构主要就是使用 <span style="color:violet;">Vector search（向量搜索）</span>。</p>
+<h4 id="Embedding（文本向量化）"><a href="#Embedding（文本向量化）" class="headerlink" title="Embedding（文本向量化）"></a>Embedding（文本向量化）</h4><p>先把文本转化成向量表示，称为 embedding（文本向量化），向量里包含了语义信息。再计算两个文本的向量距离（相似度），就可以判断它们是否相似。我们只需要知道，把文本用向量来表示是包含语义的，做向量检索就可以匹配到语义相近的文本。各厂商有提供 embedding 模型的接口，直接调用即可。比如调用 <a target="_blank" rel="noopener" href="https://platform.openai.com/docs/guides/embeddings/embedding-models">OpenAI - Embeddings</a>，传入一个文本可以得到一个1536维度的数组。</p>
+<p>假设我们的知识库是所有 helpdesk 工单，每个单的文本做 embedding 变成向量存储到数据库里。我们想要搜索和新工单语义最接近的 5 个单，那就把新工单做 embedding 变成一个向量，计算这个向量和数据库里所有向量的距离，相似度最高的 5 个就是我们要找的单。</p>
+<p><img src="/img/2025-07-09-rag-basic/helpdesk_vector_search.png" srcset="/img/loading.gif" lazyload></p>
 <p>注意，请求搜索的文本做 embedding 时选用的模型，必须与数据库中向量化所使用的模型一致。因为不同模型生成的向量完全不同，不同 embedding 模型之间不能通用。如果要更换 embedding 模型，需要把数据库中已存储的数据重新做 embedding 写入。</p>
+<p>✨ <i style="font-size: 12px;">embedding 模型的好坏会影响检索结果。我认为一般来说已经发布的模型效果不会太差，我会选择当前最新且价格不高的模型。OpenAI 的第三代 embedding 模型 <code>text-embedding-3-large</code> 和 <code>text-embedding-3-small</code> 支持多语言，比之前第二代的 <code>text-embedding-ada-002</code> 只用了英文来训练的效果更好，是个不错的选择。</i></p>
 <p>语义搜索看起来好像比词汇搜索更高级，但也存在不足，它<i style="color:tomato;">不能识别新词和低频词</i>，而这些用词汇搜索是可以实现的。两者互补，使得“词汇搜索+语义搜索”这种既要又要的混合搜索方式成为 RAG 技术栈中的主流。</p>
-<blockquote style="padding: 15px; border-radius: 10px; border-left: none; outline: 3px dotted darkslategray;">
+<h3 id="1-1-3-Hybrid-search（混合搜索）"><a href="#1-1-3-Hybrid-search（混合搜索）" class="headerlink" title="1.1.3. Hybrid search（混合搜索）"></a>1.1.3. Hybrid search（混合搜索）</h3><blockquote style="padding: 15px; border-radius: 10px; border-left: none; outline: 3px dotted darkslategray;">
     <b style="color: orange;">Hybrid search = Lexical search + Semantic search</b>
     <ul style="margin: 10px 0; padding-left: 1.5em;">
         <li><b>Lexical search</b>（词汇搜索，如关键词搜索、全文搜索、……）
@@ -324,117 +327,141 @@
     </ul>
 </blockquote>
 
-
-
-<h3 id="Vector-database（向量数据库）"><a href="#Vector-database（向量数据库）" class="headerlink" title="Vector database（向量数据库）"></a>Vector database（向量数据库）</h3><p>要实现以上所说的检索策略，Vector database（向量数据库）就进入了大众视野。现在有很多向量数据库可选，常见的有：Chroma &#x2F; FAISS &#x2F; Qdrant &#x2F; Milvus &#x2F; Pinecone &#x2F; Weaviate &#x2F; Elasticsearch &#x2F; PostgreSQL（+ pgvector插件）等等，还有 Azure 的 AI Search 服务和 Cosmos DB。这些向量数据库都支持混合搜索，也可以选择只用词汇搜索或者只用向量搜索。使用这些向量数据库，无需自己写搜索算法，无需搞清楚两类搜索是怎么混合的，依照各自的文档实现即可。当然在混合搜索里也可以调整一些参数，比如两类搜索的权重，这就需要进一步了解混合搜索实现的细节了。</p>
-<h2 id="1-2-检索的进阶优化"><a href="#1-2-检索的进阶优化" class="headerlink" title="1.2. 检索的进阶优化"></a>1.2. 检索的进阶优化</h2><p>即使使用了混合搜索，但效果可能依然不佳。为了解决词汇搜索和语义搜索的局限性，在进行混合搜索后，又有对检索结果进行二次处理的策略。</p>
-<h3 id="1-2-1-用-Reranking"><a href="#1-2-1-用-Reranking" class="headerlink" title="1.2.1. 用 Reranking"></a>1.2.1. 用 Reranking</h3><p>在 RAG 实现里 reranking 是个高频词。 Reranking，看字面意思就是重排，在进行初步检索后，训练一个模型来评估请求搜索的文本与每个候选项的匹配度，从而二次排序，得到更准确的结果。</p>
+<p>✨ <i style="font-size: 12px;">理论上混合搜索是最佳选择，但实际应用中有可能只用词汇搜索或者只用向量搜索就可以达到类似的效果，使用单一的检索策略可以节省资源。使用不同的策略对检索效果的差异取决于具体任务的数据特性和查询需求。我会直接闭眼选择混合搜索。</i></p>
+<h2 id="1-2-Reranking（重排）"><a href="#1-2-Reranking（重排）" class="headerlink" title="1.2. Reranking（重排）"></a>1.2. Reranking（重排）</h2><p>即使使用了混合搜索，但效果可能依然不佳。为了解决词汇搜索和语义搜索的局限性，在进行混合搜索后，又有对检索结果进行二次处理的策略—— reranking。从字面意思看就是重排，在进行初步检索后，训练一个模型来评估请求搜索的文本与每个候选项的匹配度，从而二次排序，得到更准确的结果。</p>
 <p><strong>那做 reranking 和做 embedding 算相似度有什么不同呢？</strong></p>
 <blockquote>
 <p>按我的理解，我会把 <u><b>reranking</b> VS <b>vector search</b></u> 类比成 <u><b>因果推断</b> VS <b>相关性</b></u>。如果你没有统计学的背景，那么我举一个例子说明。</p>
-<p><i>比如，夏天人们会吃更多的冰淇淋，也更容易晒伤。这两件事之间确实存在相关性，但吃冰淇淋并不会导致晒伤，晒伤也不会反过来让人去吃冰淇淋。它们的背后其实是同一个原因：天气炎热。</i></p>
-<p>这就好比 vector search 只能找到“看起来相关”的内容，而 reranking 进一步判断“这些相关里，哪些是和用户的问题真正相关的内容”。</p>
+<p><i style="font-size: 14px;">比如，夏天人们会吃更多的冰淇淋，也更容易晒伤。如果从数据上看，这两件事是正相关。但我们知道吃冰淇淋并不会导致晒伤，晒伤也不会反过来让人去吃冰淇淋。</i></p>
+<p>这就好比 vector search 只能找到数据上算出来是有相关性的内容，而 reranking 进一步判断“这些候选项里，哪些是和用户的问题真正相关的”。</p>
 </blockquote>
 <p><strong>reranking 是如何改善检索效果呢？</strong></p>
 <blockquote>
-<p>（以下为虚拟案例说明 reranking 机制，并非使用模型就能达到这种效果。）<br>比如用户查询：<font style="color: Violet;">“法律援助如何申请”</font></p>
-<p>初步检索返回的 Top-5 结果：</p>
-<table>
-<thead>
-<tr>
-<th>rank</th>
-<th>text</th>
-<th>remark</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>「中国法律体系包括民法、刑法、行政法等，是国家治理的基石之一。」</td>
-<td>（语义有“法律”，但和“申请援助”无关）</td>
-</tr>
-<tr>
-<td>2</td>
-<td>「很多人不知道，他们在遇到法律问题时可以申请法律援助，这通常适用于收入较低的人群。」</td>
-<td>（提到了“可以申请”，但没说如何申请）</td>
-</tr>
-<tr>
-<td>3</td>
-<td>「申请法律援助的第一步是前往当地司法局，填写申请表，并提交收入证明和案件材料。」</td>
-<td>✅ （明确回答“如何申请”）</td>
-</tr>
-<tr>
-<td>4</td>
-<td>「在一些地区，法律援助可以通过线上平台提交申请，节省了大量时间。」</td>
-<td>✅ （也在讲申请流程）</td>
-</tr>
-<tr>
-<td>5</td>
-<td>「法律援助制度的发展源于对社会公平正义的追求，其在许多国家已逐步制度化。」</td>
-<td>（背景知识，有些远）</td>
-</tr>
-</tbody></table>
-<p>reranking 后的结果（结合用户问题精准排序）：</p>
-<table>
-<thead>
-<tr>
-<th>rerank</th>
-<th>text</th>
-<th>remark</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>「申请法律援助的第一步是前往当地司法局，填写申请表，并提交收入证明和案件材料。」</td>
-<td>✅ （明确回答“如何申请”）</td>
-</tr>
-<tr>
-<td>2</td>
-<td>「在一些地区，法律援助可以通过线上平台提交申请，节省了大量时间。」</td>
-<td>✅ （也在讲申请流程）</td>
-</tr>
-<tr>
-<td>3</td>
-<td>「很多人不知道，他们在遇到法律问题时可以申请法律援助，这通常适用于收入较低的人群。」</td>
-<td>（提到了“可以申请”，但没说如何申请）</td>
-</tr>
-<tr>
-<td>4</td>
-<td>「法律援助制度的发展源于对社会公平正义的追求，其在许多国家已逐步制度化。」</td>
-<td>（背景知识，有些远）</td>
-</tr>
-<tr>
-<td>5</td>
-<td>「中国法律体系包括民法、刑法、行政法等，是国家治理的基石之一。」</td>
-<td>（语义有“法律”，但和“申请援助”无关）</td>
-</tr>
-</tbody></table>
+  <p style="font-size: 12px;">（以下为虚拟案例说明 reranking 机制达到的理想效果。）</p>
+  比如用户查询：<span style="color: Violet;">“法律援助如何申请”</span>
+  <br>
+  <br>
+
+<div style="font-size: 12px;">
+  <p>初步检索返回的 top 5 结果：</p>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <thead>
+      <tr>
+        <th>rank</th>
+        <th>text</th>
+        <th>remark</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>「中国法律体系包括民法、刑法、行政法等，是国家治理的基石之一。」</td>
+        <td>（语义有“法律”，但和“申请援助”无关）</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>「很多人不知道，他们在遇到法律问题时可以申请法律援助，这通常适用于收入较低的人群。」</td>
+        <td>（提到了“可以申请”，但没说如何申请）</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>「申请法律援助的第一步是前往当地司法局，填写申请表，并提交收入证明和案件材料。」</td>
+        <td>✅ （明确回答“如何申请”）</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>「在一些地区，法律援助可以通过线上平台提交申请，节省了大量时间。」</td>
+        <td>✅ （也在讲申请流程）</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>「法律援助制度的发展源于对社会公平正义的追求，其在许多国家已逐步制度化。」</td>
+        <td>（背景知识，有些远）</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p><br>reranking 后的结果（结合用户问题精准排序）：</p>
+  <table border="1" cellspacing="0" cellpadding="4">
+    <thead>
+      <tr>
+        <th>rerank</th>
+        <th>text</th>
+        <th>remark</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>「申请法律援助的第一步是前往当地司法局，填写申请表，并提交收入证明和案件材料。」</td>
+        <td>✅ （明确回答“如何申请”）</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>「在一些地区，法律援助可以通过线上平台提交申请，节省了大量时间。」</td>
+        <td>✅ （也在讲申请流程）</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>「很多人不知道，他们在遇到法律问题时可以申请法律援助，这通常适用于收入较低的人群。」</td>
+        <td>（提到了“可以申请”，但没说如何申请）</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>「法律援助制度的发展源于对社会公平正义的追求，其在许多国家已逐步制度化。」</td>
+        <td>（背景知识，有些远）</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>「中国法律体系包括民法、刑法、行政法等，是国家治理的基石之一。」</td>
+        <td>（语义有“法律”，但和“申请援助”无关）</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 </blockquote>
-<p>reranking 用来优化检索结果，那么我们需要一个很棒的 reranking 模型。reranking 的实际效果褒贬不一，甚至有人称起了反效果。reranking 需要的是更精确更强的模型，这也导致加入 reranking 会降低响应速度。常见的例子是在 Top-50~100 的检索结果里做 reranking。那如果本身数据量没有这么大，或者做完基础的检索策略取 Top-N 没到 50 就已经有不少候选项和用户问题没有什么关系了，把 reranking 加进来反而更累赘。以我当前接触到的案例，未有使用 reranking 优化检索结果的需求，且 reranking 需要消耗更多资源，未作深入研究。</p>
-<h3 id="1-2-2-用-LLM"><a href="#1-2-2-用-LLM" class="headerlink" title="1.2.2. 用 LLM"></a>1.2.2. 用 LLM</h3><p>即使 embedding 模型迭代得更优秀了，初步检索的效果很好了，但还存在一个问题，就是检索结果里取 Top-N 再给 LLM 生成回复，这个 N 取多少合适呢？</p>
-<p>N 取值并不是有多大取多大就行了。有人可能会认为 input token 能吃下多少就丢多少进去，这样可以尽量减少信息的丢失。尤其是与 LLM 刚火起来时对比，现在很多 LLM 可以接纳的 input token 变得非常大，很容易让人误以为传给模型的信息越多就能得到越好的效果。从实际测试的效果来看，传很长的检索结果（包含一些内容不太相关的候选项）让 LLM 根据这一大堆检索结果来回答用户的提问，会降低回复的质量。有论文证实，LLM 在处理长文本时，对开头&#x2F;结尾的信息理解表现比较好，而位于中间的信息会被忽略。<sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="[Lost in the Middle: How Language Models Use Long Contexts](https://arxiv.org/abs/2307.03172)">[1]</span></a></sup></p>
-<p>在了解 reranking 之前为了解决这个问题，我尝试过把检索结果传给 LLM 指令它筛出和问题相关的候选项，再做最后一步的生成回复，实际效果还不错。当然这个策略也是会降低响应速度。在网上也有看到有人放弃了 reranking，转而用 LLM 来优化检索结果。目前来看，如果需要优化检索结果，我会选择多加一步 inference LLM 来实现。</p>
-<h1 id="2-Chunking（切分）"><a href="#2-Chunking（切分）" class="headerlink" title="2. Chunking（切分）"></a>2. Chunking（切分）</h1><p>Chunking，指的是长文本切分成小的 chunk。当文本太长，超出 embedding 和 LLM 的 input token 限制的时候就必须要做切分了。或者是基于产品的设计，比如想要展示引用的文本来源精确到句子&#x2F;段落，那么即使文本不长，也需要做切分。</p>
-<ul>
-<li><p>是否需要切分，需要具体场景具体分析。</p>
-</li>
-<li><p>如何切分，没有一个万能的标准策略，需要根据文档结构、产品设计和业务目标等方方面面来制定切分策略。</p>
-</li>
-</ul>
-<p>比如 LLM 很常用的工具 LangChain，它的 <a target="_blank" rel="noopener" href="https://python.langchain.com/docs/concepts/text_splitters/">Text splitters</a> 模块提供了多种切分策略，包括基于长度的切分（按文本长度或 token 长度）、基于文本结构的切分（如段落、句子、单词）、基于文档结构的切分（如 HTML、Markdown、JSON、代码等）、以及基于语义的切分（通过 embedding 判断语义变化点）。另外，还可以设置前后两个 chunk 之间的文本重叠数量（<code>chunk_overlap</code>），解决切分后上下文断裂的问题，提高后续的检索效果。</p>
-<p>还有针对不同领域的切分策略，比如财务报表、法律文件等。基于这些特定领域的文件特性，又衍生出各种各样的策略。可见切分策略这一块要下的功夫还是挺多的。</p>
-<h1 id="3-实现-RAG-需要考虑的"><a href="#3-实现-RAG-需要考虑的" class="headerlink" title="3. 实现 RAG 需要考虑的"></a>3. 实现 RAG 需要考虑的</h1><p><img src="/img/2025-07-05-rag-basic/rag_workflow.png" srcset="/img/loading.gif" lazyload><font style="font-size: 12px;">Source: <a target="_blank" rel="noopener" href="https://wandb.ai/cosmo3769/RAG/reports/A-Gentle-Introduction-to-Retrieval-Augmented-Generation-RAG---Vmlldzo1MjM4Mjk1#rag-components-">A Gentle Introduction to Retrieval Augmented Generation (RAG)</a></font></p>
-<p>从以上所说的 RAG 架构来看，主要包含：检索、切分以及底层的 LLM。</p>
-<h2 id="3-1-关于-Retrieve-检索需要考虑的"><a href="#3-1-关于-Retrieve-检索需要考虑的" class="headerlink" title="3.1 关于 Retrieve 检索需要考虑的"></a>3.1 关于 Retrieve 检索需要考虑的</h2><ol>
-<li><p><strong>检索策略的选择</strong><br> 理论上混合搜索是最佳选择，但实际应用中有可能只用词汇搜索或者只用向量搜索就可以达到类似的效果，使用单一的检索策略可以节省资源。使用不同的策略对检索效果的差异取决于具体任务的数据特性和查询需求。如果要评估哪种模式效果更好，需要人工在上线应用后检查检索结果这个中间步骤。我会直接闭眼选择混合搜索。</p>
-</li>
-<li><p><strong>embedding 模型的选择</strong><br> embedding 包含语义信息，embedding 模型的好坏会影响检索结果。我会选择当前最新且价格不高的模型，选定 embedding 模型后不会轻易更换，因为如果更换需要重新对数据库已存储的数据重新读写存储。作为 AI 应用方，embedding 模型的优化不是我们努力的地方。</p>
-</li>
-<li><p><strong>检索结果的 Top-N 筛选</strong><br> N 选大一点取到不相关的候选项，再用 LLM 来筛选出强相关的项进行优化。具体数值要基于实际案例的测试效果。</p>
-</li>
-<li><p><strong>向量数据库的选择</strong><br> 常见的向量数据库都有那么多种选择，可见没有哪一个是完全优于其他的。如何选择适合自己场景的向量数据库，需要基于具体任务对性能、价格和数据安全等多方面进行探索。</p>
-</li>
-</ol>
-<h2 id="3-2-关于-Chunking-切分需要考虑的"><a href="#3-2-关于-Chunking-切分需要考虑的" class="headerlink" title="3.2 关于 Chunking 切分需要考虑的"></a>3.2 关于 Chunking 切分需要考虑的</h2><p>切分策略的搭</p>
+
+<p>✨ <i style="font-size: 12px;">reranking 用于优化检索结果，需依赖更精确、计算量更大的模型，因此也会带来响应速度的下降。实际效果因场景而异，有时还可能起反效果。通常 reranking 会在初步检索出的 top 50-100 结果中进行。但如果数据量本就不大，或初步检索后的 top N 中已有不少无关项，引入 reranking 可能反而更累赘。</i></p>
+<h2 id="1-3-交给-LLM-理解的检索结果并不是越多越好"><a href="#1-3-交给-LLM-理解的检索结果并不是越多越好" class="headerlink" title="1.3. 交给 LLM 理解的检索结果并不是越多越好"></a>1.3. 交给 LLM 理解的检索结果并不是越多越好</h2><p>或许你会想，检索结果不够准确，那把足够多的候选项塞给 LLM 去理解生成答案不就完美解决了。LLM 的 input token 能吃下多少就丢多少候选项进去，这样可以尽量减少信息的丢失。然而事实并非如此。</p>
+<p>与 LLM 刚火起来时对比，现在很多 LLM 可以接纳的 input token 变得非常大，让人觉得传给模型的信息越多就能得到越好的效果。从我实际测试的效果来看，传入很长的检索结果（包含一些内容相关较弱的候选项）让 LLM 根据这一大堆内容来回答用户的提问，会降低回复的质量。有论文证实，LLM 在处理长文本时，对开头&#x2F;结尾的信息理解表现比较好，而位于中间的信息更容易被忽略。<sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="[Lost in the Middle: How Language Models Use Long Contexts](https://arxiv.org/abs/2307.03172)">[1]</span></a></sup></p>
+<p>所以提高检索结果的准确度，筛选出少量真正相关的候选项，对最终生成的回复非常重要。</p>
+<h2 id="1-4-Vector-database（向量数据库）"><a href="#1-4-Vector-database（向量数据库）" class="headerlink" title="1.4. Vector database（向量数据库）"></a>1.4. Vector database（向量数据库）</h2><p>要实现以上所说的检索，Vector database（向量数据库）就进入了大众视野。现在有很多向量数据库可选，常见的有：Chroma &#x2F; FAISS &#x2F; Qdrant &#x2F; Milvus &#x2F; Pinecone &#x2F; Weaviate &#x2F; Elasticsearch &#x2F; PostgreSQL（+ pgvector插件）等等，还有 Azure 的 AI Search 服务和 Cosmos DB。</p>
+<p>这些向量数据库都支持混合搜索，也可以选择只用词汇搜索或者只用向量搜索。使用向量数据库，无需自己写搜索算法，无需搞清楚两类搜索是怎么混合的，依照各自的文档实现即可。当然在混合搜索里也可以调整一些参数，比如两类搜索的权重，这就需要进一步了解混合搜索实现的细节了。</p>
+<p>✨ <i style="font-size: 12px;">常见的向量数据库都有那么多种选择，可见没有哪一个是完全优于其他的。如何选择适合自己场景的向量数据库，需要基于具体任务对性能、价格和数据安全等多方面进行探索。</i></p>
+<h1 id="2-Chunking（切分）"><a href="#2-Chunking（切分）" class="headerlink" title="2. Chunking（切分）"></a>2. Chunking（切分）</h1><p>Chunking，指的是长文本切分成多个长度较小的 chunk（块）。</p>
+<p><strong>什么情况要做 chunking？</strong></p>
+<blockquote>
+<p>如果要处理的是如 helpdesk 工单、OA 工单、报修工单等这类工单类型的数据，本身文本长度就很短，就没有必要做 chunking。</p>
+<p>如果要处理的是合同、项目报告、会议纪要、审计记录、内部知识库等长文本文档，有可能单个文档就很长，更不用说需要检索出多个候选项合并传给 LLM 了。这时候我们需要把文本内容切分成更小的 chunk，<span style="color:tomato;">一来可以满足 token 限制，二来可以提高检索的准确度</span>。</p>
+</blockquote>
+<p><strong>通用 chunking 策略？</strong></p>
+<blockquote>
+<p>没有标准通用的 chunking 策略。为了满足不同的需求，chunking 策略千差百异。</p>
+<p>文档可以按页切分，按段落切分，按句子切分；还可以按文本长度切分，按 token 长度切分。</p>
+<p>比如从长度上考虑，按页切分就可以解决 token 限制的问题，但如果我要做一个文档对话产品，想要它可以高亮引用句子，那么基于这个需求，就需要按句子切分。</p>
+</blockquote>
+<p><strong>chunking 难点？</strong></p>
+<blockquote>
+<p>如果切分打断了一个语义连贯的段落，会导致检索结果丢失相关信息。</p>
+<p><i style="font-size: 14px;">比如文档内容是这样的：“<span style="color: gray; background-color: #f4d03f;">…… 以下是第一季度房地产市场的整体表现。</span><span style="color: gray; background-color: #58d68d;">该季度一线城市成交量同比增长12%，二线城市价格保持平稳，三线城市则出现轻微回落。……</span>”如果被切成 2 个 chunk。当用户提问：“第一季度房产市场的情况”，检索只会匹配到前一个 chunk，后一个 chunk 会被忽略，而后者才是我们需要的内容。</i></p>
+<p>检索结果丢失了关键信息，那么即使 LLM 厉害到能上天也无法给出正确的答案。</p>
+<p>为了解决 chunking 难题，衍生出五花八门的策略，比如 recursive chunking（初步切分后仍过长或不连贯时，递归寻找更合适的断点），设置前后两个 chunk 之间的文本重叠数量（有些句子或段落同时出现在前后两个 chunk 中），基于语义的切分（通过 embedding 判断语义变化点），等等。</p>
+<p>LLM 领域一个常用的实现工具 LangChain，它的 <a target="_blank" rel="noopener" href="https://python.langchain.com/docs/concepts/text_splitters/">Text splitters</a> 模块提供了以上所说的多种切分策略。但实际上并不能完全依赖于开源工具，比如我用高阶的工具识别出表格、图片这些特殊类型的内容，不希望这些内容块被切开，就不能直接使用开源工具，需要自行加工处理。</p>
+</blockquote>
+<h1 id="3-RAG-实现"><a href="#3-RAG-实现" class="headerlink" title="3. RAG 实现"></a>3. RAG 实现</h1><p><img src="/img/2025-07-09-rag-basic/rag_workflow.png" srcset="/img/loading.gif" lazyload alt="RAG 流程图"><span style="font-size: 12px;">Source: <a target="_blank" rel="noopener" href="https://pub.towardsai.net/unlocking-the-advantages-of-semantic-chunking-to-supercharge-your-rag-models-d0daa61bab2c">Unlocking the Advantages of Semantic Chunking to Supercharge Your RAG Models</a></span></p>
+<blockquote style="padding: 15px; border-radius: 10px; border-left: none; outline: 3px dotted darkslategray;">
+    <b style="color: orange;">RAG 流程</b>
+    <ul style="margin: 10px 0; padding-left: 1.5em;">
+        <li><b>数据预处理</b>：chunking -> embedding -> vector database
+        </li>
+        <li><b>用户提问</b>：embedding -> retrieve -> generation
+        </li>
+    </ul>
+</blockquote>
+
+<p>RAG 已经是 AI 领域一个相对成熟的架构了，有不少工具可以实现 RAG 的搭建，比如 LangChain &#x2F; LlamaIndex &#x2F; Haystack &#x2F; PydanticAI 等。这些工具可以一定程度上减轻开发 RAG 的工作量，方便对接不同的向量数据库，切换不同的底层 LLM。</p>
+<p>实现 RAG 流程并不难，<span style="color: tomato;">难点在于 chunking 和 retrieve</span>，究竟选择怎样的策略才能使最终回复有更好的效果，这是做每个项目都要具体问题具体验证的。</p>
+<h1 id="〰️✨结语✨〰️"><a href="#〰️✨结语✨〰️" class="headerlink" title="〰️✨结语✨〰️"></a>〰️✨结语✨〰️</h1><p>从本文叙述可以看出，RAG 这个 AI 架构是基于 AI 技术衍生出来的，但其实我们应用 RAG 做产品开发所需要下功夫的大多都不在 AI 上，可以说是源于 AI，又不只是 AI。</p>
 <hr>
 <span style="color: Gray;">
 
@@ -477,7 +504,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>RAG架构，源于AI，不止AI</div>
+      <div>RAG架构，源于AI，不只AI</div>
       <div>https://lamho-bienetre.github.io/techlife/rag-concept.html</div>
     </div>
     <div class="license-meta">
@@ -490,7 +517,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>Posted on</div>
-          <div>July 5, 2025</div>
+          <div>July 9, 2025</div>
         </div>
       
       
