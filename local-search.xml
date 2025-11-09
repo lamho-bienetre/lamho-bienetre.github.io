@@ -4,6 +4,44 @@
   
   
   <entry>
+    <title>我好像并不挑食</title>
+    <link href="/moments/not-really-a-picky-eater.html"/>
+    <url>/moments/not-really-a-picky-eater.html</url>
+    
+    <content type="html"><![CDATA[<p>小时候家里人总说我太挑食。我不吃苦瓜，不吃胡萝卜，不吃鱼。<br>妈妈总是抱怨，为了迁就我，她每次做饭都很为难。带我去亲戚家里吃饭，不合口味的菜我一口都不吃，她觉得很丢脸。</p><p>后来到广州上大学，学校食堂有部分窗口是承包给第三方的，除了乏善可陈的食堂菜，可以吃到拉面、蛋包饭、牛扒猪扒、荷叶蒸饭、瓦罐汤……在大学城里还可以试试其他学校的食堂，都是刷一卡通非常方便。<br>学校附近的露天广场汇聚了天南地北的小吃摊。酱香饼、麻辣烫、珍珠奶茶、寿司卷、烧仙草、煎饼果子、章鱼小丸子……<br>其实，不吃苦瓜不吃胡萝卜不吃鱼，还是有很多食物可以选的嘛～</p><p>再后来到欧洲留学，对食物的探索又到了 next level。<br>在芝士大国被安利了各种芝士，我确定了自己无法爱上。我不嗜甜，欧洲甜品的甜度能够让我精神恍惚。<br>法式食堂菜里炖得没入口就已经化了的大葱，给从没吃过大葱的我带来了小小的冲击。当然，冲击我的不是大葱，是这种把蔬菜置诸死地的炖煮程度。<br>在差异巨大的饮食文化冲击中，还是能找到舒适区的。在鼓起勇气生吃了海鲜拼盘里的生生蚝后，我发现除了炭烧蒜蓉的做法，生蚝本蚝就很美味～～～莫泊桑吃的也是这样的鲜美生蚝吧。</p><p>找到的舒适区不大，下馆子的费用也高。和大部分留学生一样，我被动触发了做饭技能。<br>在此之前我对烹饪毫无涉猎。在网上找教程跟着做了第一顿饭后，我感觉中国人大概天生就自带做饭技能，点亮即可。</p><p>现在又回到了广州生活，我在家的时候基本都是我掌勺。在点亮了做饭技能后，发现小时候所打上的“挑食”标签，其实很大可能是家里人厨艺稍逊。这回轮到我觉得他们挑食了。可乐鸡翅不爱吃，咖喱鸡肉咖喱牛肉不爱吃，土豆炖茄子不爱吃，煎牛扒不爱吃。<br>我和朋友们会去尝试川菜、湘菜、日料、泰餐、越南菜等等各种口味的菜式。我也带家里长辈去尝过一些在家吃不到的东西，但是我发现他们只接受粤菜，一些已经做了本土化改良的他们也吃不惯。<br>小时候他们认为我挑食，到头来发现我是家里对不同食物接受度最高的。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Moments</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>零代码查看重复文件的小妙招</title>
+    <link href="/techlife/tip-check-duplicate-file.html"/>
+    <url>/techlife/tip-check-duplicate-file.html</url>
+    
+    <content type="html"><![CDATA[<blockquote style="font-size: 14px;color: White; background-color: darkslategray; padding: 15px; border-radius: 10px; outline: 2px dotted darkslategray; outline-offset: 5px;">    <b style="font-size: 16px;">TL;DR</b>    <br>    要检查的文件放到同一级文件里，全选压缩成压缩文件。然后用 WinRAR 双击打开，如果 CRC32 相同则为同一文件。</blockquote><br><div style="text-align: center; font-size: 16px; color: gray;">    · · · · · ✦ ✧ ✦ · · · · ·</div><br><p>之前做一个物体检测模型，在数据收集阶段遇到一个令人头大的小问题。当时用的是 GCP (Google Cloud Platform) 的低代码模型训练平台 AutoML，把图片上传到平台可以进行人工标注。平台要求每一种物体至少上传 10 张图片才能执行训练任务，基于这个数量要求我定的数据需求是在同一个位置拍摄 10 张图片。我考虑到前线人员的工作量，所以并没有要求从不同角度拍摄，只要把相关物体都拍到就可以了，站在同一个位置连续按 10 次照相机就可以完成。</p><p>即使要求已经很低了，但还是有自作聪明的懒人，拍了 1 张图片然后复制 9 张，改了名字就发过来交差。重复图片上传到 AutoML 会自动去重，也就是说我收集到 10 张图片，上传成功的只有 1 张。批量上传图片所需费时，需要等图片全部上传完才知道有重复图片被去重了。图片数量繁多，而且我并没有要求从不同角度拍摄，所以考虑从相似图片来手动剔除再上传是很难实现的。我必需解决这个费时费力的小问题。</p><p>那时候还没有 ChatGPT，当然我现在尝试了问 ChatGPT，也是给了我几个差不多的方案。一是查哈希值。每张图片有唯一的哈希值，如果哈希值一样代表是同一张图片。怎么查哈希值呢？在电脑终端写命令，或者是写 Python 调包。二是下载软件。</p><p>正打算找个 Python 代码来批量读哈希值呢，在整理图片的时候忽然另辟蹊径发现了一个另类的方式。用 WinRAR 这个压缩软件打开包含多张图片的压缩包，可以看到一列信息叫 <b  style="color: tomato;">CRC32</b>。</p><p><img src="/img/2025-07-25-winrar-check-duplicates/winrar.png"></p><p>上图第二张图片 <i  style="color: violet;">copy.jpg</i> 是第一张图片复制的副本，可以看到它俩的 CRC32 是一样的。那么把所有图片放到一起压缩，再用 WinRAR 打开，CRC32 按序排列就可以查看有哪些图片是重复的。我就不用等图片在平台上传完才知道又缺哪些位置的图片了。这样不用写代码，也不用另外下载工具，问题解决！</p><blockquote style="padding: 15px; border-radius: 10px; border-left: none; outline: 3px dotted darkslategray;">    <b style="color: tomato;">什么是 CRC32</b>    <br>    CRC（Cyclic Redundancy Check），循环冗余校验，用来快速检查数据内容有没有变化。CRC32 是 CRC 算法的一种具体实现，输出固定为 32 位（通常以 8 位十六进制显示），常见于以太网帧（Ethernet FCS）、ZIP、PNG、GZIP 等格式。</blockquote><p>所以，除了图片，其他类型的文件也可以用这种方式来查看是否重复。<br><img src="/img/2025-07-25-winrar-check-duplicates/winrar1.png"><br>比如我们有一个原始的 Word 文档 <i  style="color: violet;">测试word.docx</i>，复制了 2 个副本，其中 <i  style="color: violet;">测试word - 副本.docx</i> 不做任何改动，<i  style="color: violet;">测试word - 副本 (2).docx</i> 改动了内容再保存。可以看到没做改动的文件和原文件的 CRC32 值是一样的，而改动过的文件 CRC32 值就变了。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Tech &amp; Life</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>RAG架构💫源于AI，不只AI</title>
     <link href="/techlife/rag-concept.html"/>
     <url>/techlife/rag-concept.html</url>
