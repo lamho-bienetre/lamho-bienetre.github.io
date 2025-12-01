@@ -28,7 +28,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://lamho-bienetre.github.io/img/wallhaven-6qmwww.jpg">
 <meta property="article:published_time" content="2025-12-01T10:00:00.000Z">
-<meta property="article:modified_time" content="2025-12-01T08:52:37.887Z">
+<meta property="article:modified_time" content="2025-12-01T09:24:50.008Z">
 <meta property="article:author" content="Lam Ho">
 <meta property="article:tag" content="AI Behind the Scenes">
 <meta name="twitter:card" content="summary_large_image">
@@ -285,7 +285,7 @@
                 <blockquote style="font-size: 14px;color: White; background-color: darkslategray; padding: 15px; border-radius: 10px; outline: 2px dotted darkslategray; outline-offset: 5px;">
     <b style="font-size: 16px;">TL;DR</b>
     <ul style="margin: 10px 0; padding-left: 1.5em;">
-        <li>Meta 发布的所谓“开源”Llama 2 其实是一种营销手段，其实根本没有开源。大厂的“开源”大模型都是假开源。</li>
+        <li>Meta 发布的所谓“开源”Llama 2 其实是一种营销手段，它根本没有开源。大厂的“开源”大模型都是假开源。</li>
         <li>大模型开源开了什么？Open Weight 和 Open Source 有什么区别。</li>
         <li>Open Weight 和 Open Source 怎么选？</li>
     </ul>
@@ -302,7 +302,7 @@
 <h1 id="假开源吃真红利"><a href="#假开源吃真红利" class="headerlink" title="假开源吃真红利"></a>假开源吃真红利</h1><p>Meta 在 2023 年 7 月发布了 Llama 2，LLM 大众化后首个来自大厂的“开源”大模型。瞬间引发了关注。非从业者跃跃欲试，想要追上 AI 的风口，在蓝海里分一杯羹。从业者则很疑虑怎么会开源，因为模型的训练数据很可能包含来自网络爬取、并非完全通过正规或授权渠道获取的内容，公开训练数据极有可能引发合规争议。</p>
 <p>很快大家就发现了 Llama 2 的“开源”谎言。没有公开训练数据集，没有公开源码，开发者根本没有办法从零复现一个 Llama 2。Llama 2 依旧是一个黑盒子。简单来说，这类似是开放了一个可以离线运行的软件。</p>
 <center>
-<img src="/img/2025-12-01-llm-open-source-vs-open-weight/maomaotou.jpg" srcset="/img/loading.gif" lazyload style="width:10%;">
+<img src="/img/2025-12-01-llm-open-source-vs-open-weight/maomaotou.jpg" srcset="/img/loading.gif" lazyload style="width:20%;">
 </center>
 <br>
 
@@ -311,7 +311,7 @@
 <p>到了 2025 年 2 月，OSI 又发布了一篇文章《<a target="_blank" rel="noopener" href="https://opensource.org/blog/metas-llama-license-is-still-not-open-source">Meta’s LLaMa license is still not Open Source</a>》。指出 Meta 发布的新模型 Llama 3 依然不属于开源，而且还继续在误导性地宣传自己是开源。呼吁大家去催小扎改 Llama 许可，让它符合开源定义。</p>
 <p>现在是 2025 年 11 月，我们到 Llama 的官网可以看到 Llama 3 页面的副标题依然明晃晃地写着 open-source。</p>
 <center>
-<img src="/img/2025-12-01-llm-open-source-vs-open-weight/llama3.png" srcset="/img/loading.gif" lazyload style="width:40%;">
+<img src="/img/2025-12-01-llm-open-source-vs-open-weight/llama3.png" srcset="/img/loading.gif" lazyload style="width:60%;">
 <span style="display:block; font-size:12px; color:gray; text-align:left;  word-break:break-all;">https://www.llama.com/models/llama-3/</span>
 </center>
 <br>
@@ -325,7 +325,7 @@
 </blockquote>
 <p>OSI 还给出了 Open Weights（开放权重）和 Open Source（开源）的对比：</p>
 <center>
-<img src="/img/2025-12-01-llm-open-source-vs-open-weight/open_weight_open_source_notation.jpg" srcset="/img/loading.gif" lazyload style="width:70%;">
+<img src="/img/2025-12-01-llm-open-source-vs-open-weight/open_weight_open_source_notation.jpg" srcset="/img/loading.gif" lazyload style="width:100%;">
 <span style="display:block; font-size:12px; color:gray; text-align:left;  word-break:break-all;">https://opensource.org/ai/open-weights</span>
 </center>
 
@@ -335,7 +335,7 @@
 <p>基本上常见的所谓开源 LLM，都是 open weight。比如 Llama（Meta），Mistral（Mistral），Phi（Microsoft），Gemma（Google），gpt-oss（OpenAI），DeepSeek（DeepSeek），Qwen（阿里），GLM（智谱），Kimi K2（月之暗面）。</p>
 <p>OpenAI 在 2025 年 8 月发布了 gpt-oss 模型，倒是用了 open-weight 这个描述。</p>
 <center>
-<img src="/img/2025-12-01-llm-open-source-vs-open-weight/gpt_oss.png" srcset="/img/loading.gif" lazyload style="width:40%;">
+<img src="/img/2025-12-01-llm-open-source-vs-open-weight/gpt_oss.png" srcset="/img/loading.gif" lazyload style="width:60%;">
 <span style="display:block; font-size:12px; color:gray; text-align:left;  word-break:break-all;">https://openai.com/index/introducing-gpt-oss/</span>
 </center>
 <br>
@@ -344,7 +344,7 @@
 
 <h1 id="真正的开源-AI"><a href="#真正的开源-AI" class="headerlink" title="真正的开源 AI"></a>真正的开源 AI</h1><p>那有没有真正开源的 AI 呢？OSI 也是有列举的：</p>
 <center>
-<img src="/img/2025-12-01-llm-open-source-vs-open-weight/true_open_source.png" srcset="/img/loading.gif" lazyload style="width:50%;">
+<img src="/img/2025-12-01-llm-open-source-vs-open-weight/true_open_source.png" srcset="/img/loading.gif" lazyload style="width:100%;">
 <span style="display:block; font-size:12px; color:gray; text-align:left;  word-break:break-all;">https://opensource.org/ai#share</span>
 </center>
 <br>
